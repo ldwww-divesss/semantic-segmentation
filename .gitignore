@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+checkpoints/
+results/
+*.pth
+label_colored_example.png
+.ipynb_checkpoints/
+wandb/
+train/
+test/
