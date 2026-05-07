@@ -97,7 +97,7 @@ python train.py --model unet --epochs 2 --batch-size 2 --device cpu
 └── README.md
 ```
 
-##ResNet34-UNet_baseline
+## ResNet34-UNet_baseline
 Device  : cuda
 Train   : 367 images     |  Val: 101 images
 Model   : ResNet34-UNet  |  Classes: 12          
@@ -126,7 +126,7 @@ Epoch  |TrainLoss  |  mIoU  |    PA   |   Time
 |Method	               | mIoU   |	PA |  FPS	  |Params
 Stage 1 UNet (ResNet34)| 71.46% |93.33%|	168.25|	24.40M
 
-##ResNet34-UNET-CBAM
+## ResNet34-UNET-CBAM
 Device  : cuda
 Train   : 367 images | Val: 101 images    
 
