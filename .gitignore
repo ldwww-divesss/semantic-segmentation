@@ -10,3 +10,4 @@ label_colored_example.png
 wandb/
 train/
 test/
+venv
