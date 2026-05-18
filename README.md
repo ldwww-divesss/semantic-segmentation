@@ -96,3 +96,63 @@ python train.py --model unet --epochs 2 --batch-size 2 --device cpu
 ├── requirements.txt
 └── README.md
 ```
+
+## ResNet34-UNet Baseline（阶段一）
+
+### Per‑Class IoU & Accuracy
+
+| Class       | IoU (%) | Acc (%) |
+|-------------|---------|---------|
+| Sky         | 94.20   | 96.64   |
+| Building    | 86.47   | 89.35   |
+| Pole        | 18.07   | 24.94   |
+| Road        | 97.18   | 98.32   |
+| Pavement    | 88.68   | 95.92   |
+| Tree        | 90.82   | 97.66   |
+| SignSymbol  | 57.50   | 68.90   |
+| Fence       | 72.45   | 88.33   |
+| Car         | 86.26   | 90.28   |
+| Pedestrian  | 55.55   | 77.02   |
+| Bicyclist   | 80.05   | 84.65   |
+| Void        | 30.25   | 61.49   |
+
+> 最佳 checkpoint (epoch 37): **mIoU = 71.46%**，**PA = 93.33%**
+
+### 模型性能对比
+
+| Method                  | mIoU   | PA     | FPS    | Params   |
+|-------------------------|--------|--------|--------|----------|
+| Stage 1 UNet (ResNet34) | 71.46% | 93.33% | 168.25 | 24.40M   |
+
+---
+
+## ResNet34-UNet + CBAM（阶段二）
+
+### Per‑Class IoU & Accuracy
+
+| Class       | IoU (%) | Acc (%) |
+|-------------|---------|---------|
+| Sky         | 94.31   | 97.03   |
+| Building    | 87.39   | 90.80   |
+| Pole        | 16.23   | 20.29   |
+| Road        | 97.00   | 98.07   |
+| Pavement    | 88.18   | 96.10   |
+| Tree        | 91.35   | 96.97   |
+| SignSymbol  | 59.82   | 67.77   |
+| Fence       | 71.86   | 84.46   |
+| Car         | 85.80   | 93.84   |
+| Pedestrian  | 57.32   | 74.01   |
+| Bicyclist   | 79.88   | 86.56   |
+| Void        | 30.07   | 61.46   |
+
+> 最佳 checkpoint (epoch 25): **mIoU = 71.60%**，**PA = 93.50%**
+
+### 模型性能对比
+
+| Method            | mIoU   | PA     | FPS   | Params   |
+|-------------------|--------|--------|-------|----------|
+| Stage 2 UNet‑CBAM | 71.60% | 93.50% | 91.73 | 24.44M   |
+
+
+
+
