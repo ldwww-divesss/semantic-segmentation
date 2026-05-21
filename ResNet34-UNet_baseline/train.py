@@ -11,7 +11,7 @@ import os
 # ================= 1. 配置参数 =================
 device = "cuda" if torch.cuda.is_available() else "cpu"
 NUM_CLASSES = 12 
-EPOCHS = 40
+EPOCHS = 80
 BATCH_SIZE = 4
 LR = 2e-4
 
@@ -45,8 +45,8 @@ def dice_loss(pred, target, num_classes):
     dice = (2. * intersection + 1e-5) / (union + 1e-5)
     return 1.0 - dice.mean()
 
-criterion_ce = torch.nn.CrossEntropyLoss()
-
+# criterion_ce = torch.nn.CrossEntropyLoss()
+criterion_ce = torch.nn.CrossEntropyLoss(ignore_index=11)
 # ================= 4. 训练主循环 =================
 best_miou = 0.0
 print(f"\n--- 阶段一：ResNet34-UNet Baseline 训练 ---")
@@ -116,9 +116,16 @@ for epoch in range(EPOCHS):
     ious = epoch_inter / np.maximum(epoch_union, 1e-10)
     accs = epoch_correct / np.maximum(epoch_pixels, 1e-10)
     
-    valid_classes = epoch_pixels > 0
-    current_miou = np.mean(ious[valid_classes])
-    current_pa = np.sum(epoch_correct) / np.maximum(np.sum(epoch_pixels), 1e-10)
+# 对 IoU 数组和像素统计数组进行切片 [:-1]，丢弃最后一个索引(11, Void类)
+    ious_11 = ious[:-1]
+    pixels_11 = epoch_pixels[:-1]
+    
+    valid_classes_11 = pixels_11 > 0
+    current_miou = np.mean(ious_11[valid_classes_11])
+    
+    # 同样的，PA 也只计算前 11 类
+    correct_11 = epoch_correct[:-1]
+    current_pa = np.sum(correct_11) / np.maximum(np.sum(pixels_11), 1e-10)
     
     epoch_time = time.time() - epoch_start_time
 
@@ -139,7 +146,7 @@ for epoch in range(EPOCHS):
         print("|    Class   |  IoU  |  Acc  |")
         print("+------------+-------+-------+")
         
-        for cls in range(NUM_CLASSES):
+        for cls in range(NUM_CLASSES-1):
             if epoch_pixels[cls] == 0:
                 c_iou, c_acc = 0.0, 0.0
             else:
