@@ -2,8 +2,8 @@ import torch
 import time
 
 # 导入你的四个模型
-# from model import ResNetUNet
-from model_cbam import ResNetUNetCBAM
+from model import ResNetUNet
+# from model_cbam import ResNetUNetCBAM
 # from model_vit import ViTSeg
 # from model_transunet import TransUNet
 
@@ -54,11 +54,11 @@ if __name__ == "__main__":
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"当前测试设备: {device}\n" + "="*40)
     
-    # # 1. 测试阶段一 Baseline
-    # measure_model("ResNet34-UNet (Baseline)", ResNetUNet(num_classes=12), device)
+    # 1. 测试阶段一 Baseline
+    measure_model("ResNet34-UNet (Baseline)", ResNetUNet(num_classes=12), device)
     
     # 2. 测试阶段二 CBAM
-    measure_model("ResNet34-UNet-CBAM", ResNetUNetCBAM(num_classes=12), device)
+    # measure_model("ResNet34-UNet-CBAM", ResNetUNetCBAM(num_classes=12), device)
     
 #     # 3. 测试阶段三 ViT
 #     measure_model("ViTSeg (纯 Transformer)", ViTSeg(num_classes=12), device)
