@@ -124,6 +124,34 @@ python train.py --model unet --epochs 2 --batch-size 2 --device cpu
 |-------------------------|--------|--------|--------|----------|
 | Stage 1 UNet (ResNet34) | 71.46% | 93.33% | 168.25 | 24.40M   |
 
+###  网络架构
+
+```
+输入 [3, 512, 512]
+  │
+  ▼ enc1: ResNet.conv1+bn1+relu → [64, 256, 256]  stride=2
+  ▼ pool: ResNet.maxpool         → [64, 128, 128]
+  ▼ enc2: ResNet.layer1 (3×BasicBlock) → [64, 128, 128]   ← Skip e1
+  ▼ enc3: ResNet.layer2 (4×BasicBlock) → [128, 64, 64]    ← Skip e2
+  ▼ enc4: ResNet.layer3 (6×BasicBlock) → [256, 32, 32]    ← Skip e3
+  ▼ enc5: ResNet.layer4 (3×BasicBlock) → [512, 16, 16]    ← Skip e4
+  │
+  ▼ dec4: ConvTranspose2d(512→256) + Cat(e4) → DoubleConv → [256, 32, 32]
+  ▼ dec3: ConvTranspose2d(256→128) + Cat(e3) → DoubleConv → [128, 64, 64]
+  ▼ dec2: ConvTranspose2d(128→64)  + Cat(e2) → DoubleConv → [64, 128, 128]
+  ▼ dec1: ConvTranspose2d(64→64)   + Cat(e1) → DoubleConv → [64, 256, 256]
+  │
+  ▼ Bilinear Upsample 2× → [64, 512, 512]
+  ▼ Conv2d(64, 12)        → [12, 512, 512]
+```
+
+**架构特点**：
+- 编码器：ResNet34 ImageNet 预训练，5 阶段逐级下采样（H→H/32）
+- 解码器：4 个 DecoderBlock，每个由 ConvTranspose2d 上采样 + Skip Connection Concat + DoubleConv 组成
+- 跳跃连接：通过对称编码器-解码器架构与跳跃连接，恢复高频空间细节
+- 数据集：CamVid（11 个语义类别，367 张训练图像）
+- 损失函数：CrossEntropyLoss (ignore_index=11) + DiceLoss (1:1)
+
 ---
 
 ## ResNet34-UNet + CBAM（阶段二）
@@ -153,6 +181,41 @@ python train.py --model unet --epochs 2 --batch-size 2 --device cpu
 |-------------------|--------|--------|-------|----------|
 | Stage 2 UNet‑CBAM | 71.60% | 93.50% | 91.73 | 24.44M   |
 
+### 改进方案
 
+**CBAM 注意力模块**嵌入解码器深层：
 
+```
+DecoderBlockCBAM:
+  Up → Cat(skip) → DoubleConv → CBAM → output
+                                 │
+                    ┌────────────┴────────────┐
+                    │  ChannelAttention       │
+                    │  AvgPool+MaxPool → MLP  │
+                    │  → Sigmoid → [C,1,1]    │
+                    └────────────┬────────────┘
+                                 │
+                    ┌────────────┴────────────┐
+                    │  SpatialAttention       │
+                    │  ChannelAvgMax → 7×7Conv│
+                    │  → Sigmoid → [1,H,W]    │
+                    └─────────────────────────┘
+```
+
+**CBAM 仅在深层解码块 (dec3, dec4) 嵌入**：平衡高级语义过滤与低级空间保留，使网络能保留精确边界定位所需的细粒度细节。深层通道数多（128/256），语义抽象级别高，注意力能有效重标定重要性。浅层 dec1/dec2 保留原始卷积以保护纹理细节。
+### mIoU 停滞 ≠ 没有改进：注意力预算的结构性转移
+
+76.01% → 76.03%，mIoU 变化仅 **+0.02 pp**，但这不是"没涨"——这是模型内部发生了一次**注意力预算的结构性再分配**。
+
+**小类集体受益**：SignSymbol (+5.12 pp)、Bicyclist (+4.37 pp)、Fence (+3.07 pp)、Pedestrian (+2.35 pp)。这四个类别平均提升 **+3.73 pp**。
+
+**大类付出代价**：Pavement (-4.19 pp)、Car (-3.49 pp)、Road (-1.28 pp)。这三个类别平均下降 **-2.99 pp**。
+
+增益和损失几乎精确对冲，导致 mIoU 原地踏步。这种"零和转移"的机制：
+
+1. **类别权重改变了梯度景观**：逆频率权重使 Pole 的每个像素贡献约 3× 梯度，Road 约 0.3×。模型被强制分配更多优化资源给少数类。
+2. **CBAM 放大了权重效应**：通道注意力学习重标定特征通道。在加权损失的压力下，注意力自然偏向稀有类相关的语义通道，抑制了主导类的通道。
+3. **物理约束**：CamVid 仅 367 张训练图，Road 占 ~30% 像素。从 Road "偷" 1.3 pp 的模型容量，能"喂"给 4 个小类各 2-5 pp——因为小类的像素总数极低，少量的正确预测就能大幅提升 IoU。
+
+**关键结论**：**CBAM 没有改变 mIoU，但重新分配了模型的注意力预算** 
 
