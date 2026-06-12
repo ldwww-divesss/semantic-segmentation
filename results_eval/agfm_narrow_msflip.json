@@ -1,0 +1,29 @@
+{
+  "checkpoint": "checkpoints/fusion_v2_agfm_best.pth",
+  "fusion": "agfm",
+  "tta": "ms-flip",
+  "scales": [
+    0.9,
+    1.0,
+    1.1
+  ],
+  "hflip": true,
+  "n_views": 6,
+  "miou": 0.7929091061640086,
+  "pixel_accuracy": 0.9554095358994759,
+  "per_class_iou": {
+    "Sky": 0.9426377206689052,
+    "Building": 0.9230255236185713,
+    "Pole": 0.23768294688373623,
+    "Road": 0.969095746989045,
+    "Pavement": 0.8745598425359891,
+    "Tree": 0.9167362157821642,
+    "SignSymbol": 0.7095842038666392,
+    "Fence": 0.7104421500604952,
+    "Car": 0.9052971827036554,
+    "Pedestrian": 0.6793114344613811,
+    "Bicyclist": 0.8536272002335112
+  },
+  "eval_seconds": 34.09349799156189,
+  "device": "mps"
+}

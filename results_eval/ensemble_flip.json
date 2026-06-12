@@ -1,0 +1,24 @@
+{
+  "members": [
+    "agfm:checkpoints/fusion_v2_agfm_best.pth",
+    "none_concat:checkpoints/fusion_v2_none_concat_best.pth",
+    "none_add:checkpoints/fusion_v2_none_add_best.pth"
+  ],
+  "hflip": true,
+  "miou": 0.8082867084716491,
+  "pixel_accuracy": 0.9626976818960231,
+  "per_class_iou": {
+    "Sky": 0.9441151750390527,
+    "Building": 0.9317396666869798,
+    "Pole": 0.23749153279421972,
+    "Road": 0.9788212210073124,
+    "Pavement": 0.907977458209488,
+    "Tree": 0.9296706697054993,
+    "SignSymbol": 0.7203954750856761,
+    "Fence": 0.7804919549692184,
+    "Car": 0.9053312663033892,
+    "Pedestrian": 0.6923793357268399,
+    "Bicyclist": 0.8627400376604633
+  },
+  "device": "mps"
+}

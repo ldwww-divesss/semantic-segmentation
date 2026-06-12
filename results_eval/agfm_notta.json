@@ -1,0 +1,22 @@
+{
+  "checkpoint": "checkpoints/fusion_v2_agfm_best.pth",
+  "fusion": "agfm",
+  "tta": "none",
+  "miou": 0.8006,
+  "pixel_accuracy": 0.9608,
+  "per_class_iou": {
+    "Sky": 94.08,
+    "Building": 92.76,
+    "Pole": 24.07,
+    "Road": 97.8,
+    "Pavement": 90.77,
+    "Tree": 92.8,
+    "SignSymbol": 68.38,
+    "Fence": 76.67,
+    "Car": 89.56,
+    "Pedestrian": 68.34,
+    "Bicyclist": 85.4
+  },
+  "device": "mps",
+  "note": "values transcribed from run log bk8bkd1re"
+}
