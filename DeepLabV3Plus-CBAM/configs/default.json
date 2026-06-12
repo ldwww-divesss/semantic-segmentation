@@ -1,0 +1,22 @@
+{
+  "data_root": "..",
+  "split_protocol": "internal-val",
+  "epochs": 100,
+  "batch_size": 4,
+  "lr": 0.0001,
+  "wd": 0.0001,
+  "workers": 4,
+  "crop_size": [
+    360,
+    480
+  ],
+  "optimizer": "adamw",
+  "scheduler": "cosine",
+  "no_pretrain": false,
+  "amp": false,
+  "seed": 42,
+  "attention": "cbam",
+  "cbam": "full",
+  "loss": "ce+dice",
+  "work_dir": "checkpoints/default"
+}

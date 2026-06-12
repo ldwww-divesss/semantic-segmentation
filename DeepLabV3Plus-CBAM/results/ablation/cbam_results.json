@@ -1,0 +1,223 @@
+{
+  "meta": {
+    "created_at": "2026-06-01T23:21:44",
+    "script": "scripts/evaluate_page5_cbam_ablation.py",
+    "data_root": "dataset (portable placeholder)",
+    "validation_images": 73,
+    "device": "cpu",
+    "ignore_index": 11,
+    "num_classes": 11,
+    "classes": [
+      "Sky",
+      "Building",
+      "Pole",
+      "Road",
+      "Pavement",
+      "Tree",
+      "SignSymbol",
+      "Fence",
+      "Car",
+      "Pedestrian",
+      "Bicyclist"
+    ],
+    "tta": false,
+    "command": "scripts/evaluate_page5_cbam_ablation.py",
+    "git_commit": "",
+    "split_protocol": "internal-val",
+    "protocol_note": "Reported on the bundled 294/73 train/validation split, not the 101-image official test set."
+  },
+  "summary": [
+    {
+      "variant": "CBAM channel only",
+      "key": "cbam_channel_only",
+      "checkpoint": "experiments/phase2/checkpoints/cbam_channel_only/best.pth",
+      "miou_percent": 74.57,
+      "pa_percent": 94.0253,
+      "fwiou_percent": 89.6621,
+      "raw_log": "docs/results/page5_cbam_ablation/raw_logs/cbam_channel_only.txt"
+    },
+    {
+      "variant": "CBAM spatial only",
+      "key": "cbam_spatial_only",
+      "checkpoint": "experiments/phase2/checkpoints/cbam_spatial_only/best.pth",
+      "miou_percent": 74.968,
+      "pa_percent": 94.0919,
+      "fwiou_percent": 89.7627,
+      "raw_log": "docs/results/page5_cbam_ablation/raw_logs/cbam_spatial_only.txt"
+    },
+    {
+      "variant": "Full CBAM",
+      "key": "cbam_full",
+      "checkpoint": "experiments/phase2/checkpoints/cbam_full/best.pth",
+      "miou_percent": 74.9062,
+      "pa_percent": 94.1117,
+      "fwiou_percent": 89.7678,
+      "raw_log": "docs/results/page5_cbam_ablation/raw_logs/cbam_full.txt"
+    }
+  ],
+  "items": [
+    {
+      "variant": "CBAM channel only",
+      "key": "cbam_channel_only",
+      "checkpoint": "experiments/phase2/checkpoints/cbam_channel_only/best.pth",
+      "train_args": {
+        "data_root": "dataset",
+        "work_dir": "experiments/phase2/checkpoints/cbam_channel_only",
+        "epochs": 100,
+        "batch_size": 4,
+        "lr": 0.0001,
+        "wd": 0.0001,
+        "workers": 4,
+        "loss": "ce+dice",
+        "cbam": "channel",
+        "optimizer": "adamw",
+        "scheduler": "cosine",
+        "no_pretrain": false,
+        "resume": null,
+        "amp": false,
+        "seed": 42
+      },
+      "results": {
+        "miou": 0.745699983828274,
+        "pa": 0.9402533806086975,
+        "iou_per_class": [
+          0.9110202129219661,
+          0.8955459048117084,
+          0.36137849292435886,
+          0.9677850409360728,
+          0.796984631256728,
+          0.8141604938023841,
+          0.5719745797669382,
+          0.7243274974964605,
+          0.9074397104872628,
+          0.5878661859151606,
+          0.6642170717919729
+        ],
+        "acc_per_class": [
+          0.9275603353789357,
+          0.9133685910490403,
+          0.7439943062603407,
+          0.975552482164022,
+          0.9054578314310029,
+          0.9463398589642605,
+          0.823822652964603,
+          0.9088616589829803,
+          0.9750388468277845,
+          0.872993452028995,
+          0.8189580066213626
+        ],
+        "freq_w_iou": 0.896620802756621
+      },
+      "raw_log": "docs/results/page5_cbam_ablation/raw_logs/cbam_channel_only.txt"
+    },
+    {
+      "variant": "CBAM spatial only",
+      "key": "cbam_spatial_only",
+      "checkpoint": "experiments/phase2/checkpoints/cbam_spatial_only/best.pth",
+      "train_args": {
+        "data_root": "dataset",
+        "work_dir": "experiments/phase2/checkpoints/cbam_spatial_only",
+        "epochs": 100,
+        "batch_size": 4,
+        "lr": 0.0001,
+        "wd": 0.0001,
+        "workers": 4,
+        "loss": "ce+dice",
+        "attention": "cbam",
+        "cbam": "spatial",
+        "optimizer": "adamw",
+        "scheduler": "cosine",
+        "no_pretrain": false,
+        "resume": null,
+        "amp": false,
+        "seed": 42
+      },
+      "results": {
+        "miou": 0.7496803850022442,
+        "pa": 0.9409191258026441,
+        "iou_per_class": [
+          0.9105838190113342,
+          0.8977307019952532,
+          0.3673154226287063,
+          0.9679356516688795,
+          0.7978384545412498,
+          0.815708742938705,
+          0.5591245237917383,
+          0.7463417073937523,
+          0.9083655450459277,
+          0.5893638185515133,
+          0.6861758474576272
+        ],
+        "acc_per_class": [
+          0.9256946593433819,
+          0.9172589539285061,
+          0.7364981652478533,
+          0.9752961674432773,
+          0.9080055797794407,
+          0.9465163674704932,
+          0.8338207034840003,
+          0.905187354847655,
+          0.9726597170475902,
+          0.8823226682434356,
+          0.8465107161526398
+        ],
+        "freq_w_iou": 0.8976272082229766
+      },
+      "raw_log": "docs/results/page5_cbam_ablation/raw_logs/cbam_spatial_only.txt"
+    },
+    {
+      "variant": "Full CBAM",
+      "key": "cbam_full",
+      "checkpoint": "experiments/phase2/checkpoints/cbam_full/best.pth",
+      "train_args": {
+        "data_root": "dataset",
+        "work_dir": "experiments/phase2/checkpoints/cbam_full",
+        "epochs": 100,
+        "batch_size": 4,
+        "lr": 0.0001,
+        "wd": 0.0001,
+        "workers": 4,
+        "loss": "ce+dice",
+        "cbam": "full",
+        "optimizer": "adamw",
+        "scheduler": "cosine",
+        "no_pretrain": false,
+        "resume": null,
+        "amp": false,
+        "seed": 42
+      },
+      "results": {
+        "miou": 0.749062130987226,
+        "pa": 0.941117344429142,
+        "iou_per_class": [
+          0.9087631137615776,
+          0.8983449678075228,
+          0.36582628690784835,
+          0.9685686988233309,
+          0.7969510674516692,
+          0.812204589969374,
+          0.5865626638699528,
+          0.7509186185106038,
+          0.9127586070916867,
+          0.5926622694106357,
+          0.6461225572552834
+        ],
+        "acc_per_class": [
+          0.9236810857377287,
+          0.9205118028623542,
+          0.7381988926785533,
+          0.976942408152188,
+          0.9027907670442084,
+          0.9450693087475905,
+          0.8307201010016617,
+          0.92266629692537,
+          0.971274964332127,
+          0.8520355648993715,
+          0.7957614566997735
+        ],
+        "freq_w_iou": 0.897677784162927
+      },
+      "raw_log": "docs/results/page5_cbam_ablation/raw_logs/cbam_full.txt"
+    }
+  ]
+}

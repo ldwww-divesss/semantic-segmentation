@@ -11,3 +11,9 @@ wandb/
 train/
 test/
 venv
+
+# Keep portable Stage II result tables while excluding generated weights/output.
+!DeepLabV3Plus-CBAM/results/
+!DeepLabV3Plus-CBAM/results/**
+DeepLabV3Plus-CBAM/checkpoints/
+DeepLabV3Plus-CBAM/visualizations/

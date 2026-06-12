@@ -1,0 +1,4 @@
+variant,key,checkpoint,miou_percent,pa_percent,fwiou_percent,raw_log
+CBAM channel only,cbam_channel_only,experiments/phase2/checkpoints/cbam_channel_only/best.pth,74.57,94.0253,89.6621,docs/results/page5_cbam_ablation/raw_logs/cbam_channel_only.txt
+CBAM spatial only,cbam_spatial_only,experiments/phase2/checkpoints/cbam_spatial_only/best.pth,74.968,94.0919,89.7627,docs/results/page5_cbam_ablation/raw_logs/cbam_spatial_only.txt
+Full CBAM,cbam_full,experiments/phase2/checkpoints/cbam_full/best.pth,74.9062,94.1117,89.7678,docs/results/page5_cbam_ablation/raw_logs/cbam_full.txt

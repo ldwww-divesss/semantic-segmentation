@@ -60,6 +60,22 @@ python train.py --model unet --epochs 2 --batch-size 2 --device cpu
 
 `--device auto` 自动选择 CUDA → MPS → CPU。最优模型自动保存至 `checkpoints/<model>_best.pth`。
 
+### 阶段二:DeepLabV3+ + 注意力/损失/TTA
+
+阶段二 DeepLabV3+ 完整实验链已独立整理到 `DeepLabV3Plus-CBAM/`。默认使用内置 294/73 validation 协议；已有结果不得视为 101 张 official test 结果。
+
+```bash
+python DeepLabV3Plus-CBAM/train.py \
+    --config DeepLabV3Plus-CBAM/configs/cbam_spatial.json \
+    --data-root .
+
+python DeepLabV3Plus-CBAM/evaluate_tta.py \
+    --checkpoint DeepLabV3Plus-CBAM/checkpoints/cbam_spatial/best.pth \
+    --data-root . --split-protocol internal-val --flip
+```
+
+统一参数包括 `--attention cbam|eca|coord|none`、`--cbam full|channel|spatial|none`、`--loss ce|dice|focal|ce+dice|ce+focal` 和 `--split-protocol internal-val|official-test`。完整说明见 `DeepLabV3Plus-CBAM/README.md`。
+
 ### 阶段三:SegFormer
 
 ```bash
@@ -107,6 +123,7 @@ python evaluate_ensemble.py --save-json results_eval/ensemble_flip.json
 ├── dataset.py              # CamVid 数据集加载与数据增强
 ├── metrics.py              # mIoU、Pixel Accuracy 计算(混淆矩阵)
 ├── train.py                # 阶段一:CNN Baseline 训练
+├── DeepLabV3Plus-CBAM/     # 阶段二:DeepLabV3+ 注意力、损失、TTA 独立实验链
 ├── train_segformer.py      # 阶段三:SegFormer 训练
 ├── train_fusion.py         # 阶段四 v1:单尺度融合
 ├── train_fusion_v2.py      # 阶段四 v2:AGFNet(多尺度 + AGFM/Concat/Add)

@@ -1,0 +1,6 @@
+variant,key,params_m,median_latency_ms,mean_latency_ms,latency_stdev_ms,fps
+Stage I baseline,stage1_baseline,43.5845,6.9779,6.9897,0.0225,143.3097
+CBAM channel only,cbam_channel_only,41.0459,5.4898,5.4912,0.0034,182.1554
+CBAM spatial only,cbam_spatial_only,40.35,5.5048,5.5044,0.0009,181.6585
+Full CBAM,cbam_full,41.0463,5.8223,5.8223,0.0002,171.7523
+Stage II CE+Dice + 6-view TTA,stage2_tta,40.35,37.2397,37.241,0.0038,26.8531

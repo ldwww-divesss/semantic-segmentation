@@ -1,0 +1,34 @@
+variant,key,class,iou_percent,acc_percent
+CBAM channel only,cbam_channel_only,Sky,91.102,92.756
+CBAM channel only,cbam_channel_only,Building,89.5546,91.3369
+CBAM channel only,cbam_channel_only,Pole,36.1378,74.3994
+CBAM channel only,cbam_channel_only,Road,96.7785,97.5552
+CBAM channel only,cbam_channel_only,Pavement,79.6985,90.5458
+CBAM channel only,cbam_channel_only,Tree,81.416,94.634
+CBAM channel only,cbam_channel_only,SignSymbol,57.1975,82.3823
+CBAM channel only,cbam_channel_only,Fence,72.4327,90.8862
+CBAM channel only,cbam_channel_only,Car,90.744,97.5039
+CBAM channel only,cbam_channel_only,Pedestrian,58.7866,87.2993
+CBAM channel only,cbam_channel_only,Bicyclist,66.4217,81.8958
+CBAM spatial only,cbam_spatial_only,Sky,91.0584,92.5695
+CBAM spatial only,cbam_spatial_only,Building,89.7731,91.7259
+CBAM spatial only,cbam_spatial_only,Pole,36.7315,73.6498
+CBAM spatial only,cbam_spatial_only,Road,96.7936,97.5296
+CBAM spatial only,cbam_spatial_only,Pavement,79.7838,90.8006
+CBAM spatial only,cbam_spatial_only,Tree,81.5709,94.6516
+CBAM spatial only,cbam_spatial_only,SignSymbol,55.9125,83.3821
+CBAM spatial only,cbam_spatial_only,Fence,74.6342,90.5187
+CBAM spatial only,cbam_spatial_only,Car,90.8366,97.266
+CBAM spatial only,cbam_spatial_only,Pedestrian,58.9364,88.2323
+CBAM spatial only,cbam_spatial_only,Bicyclist,68.6176,84.6511
+Full CBAM,cbam_full,Sky,90.8763,92.3681
+Full CBAM,cbam_full,Building,89.8345,92.0512
+Full CBAM,cbam_full,Pole,36.5826,73.8199
+Full CBAM,cbam_full,Road,96.8569,97.6942
+Full CBAM,cbam_full,Pavement,79.6951,90.2791
+Full CBAM,cbam_full,Tree,81.2205,94.5069
+Full CBAM,cbam_full,SignSymbol,58.6563,83.072
+Full CBAM,cbam_full,Fence,75.0919,92.2666
+Full CBAM,cbam_full,Car,91.2759,97.1275
+Full CBAM,cbam_full,Pedestrian,59.2662,85.2036
+Full CBAM,cbam_full,Bicyclist,64.6123,79.5761
