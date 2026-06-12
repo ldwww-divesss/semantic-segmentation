@@ -1,7 +1,7 @@
 # CamVid 城市街景语义分割（四阶段研究 + AGFNet）
 
 四阶段实验研究:CNN Baseline → CNN 改进(CBAM/损失/TTA)→ SegFormer 跨框架对比 → CNN-Transformer 融合(AGFNet)。
-最终结果:AGFNet **80.35% mIoU / 96.14% PA**;三模型集成 + flip TTA **80.83% mIoU / 96.27% PA**。
+最终结果:三模型集成 + flip TTA **80.83% mIoU / 96.27% PA**。
 
 ## 数据集
 
@@ -99,17 +99,7 @@ python evaluate_tta.py --checkpoint checkpoints/fusion_v2_agfm_best.pth \
 python evaluate_ensemble.py --save-json results_eval/ensemble_flip.json
 ```
 
-### 评测结果(同一评测流水线,Apple MPS)
-
-| 配置 | 视图数 | mIoU | PA |
-|------|--------|------|----|
-| AGFNet 单次前向 | 1 | 80.06 | 96.08 |
-| + flip TTA | 2 | 80.35 | 96.15 |
-| + ms-flip TTA (0.75/1.0/1.25) | 6 | 79.65 | 95.66 |
-| + ms-flip TTA (0.9/1.0/1.1) | 6 | 79.29 | 95.54 |
-| **三模型集成 + flip** | 6 | **80.83** | **96.27** |
-
-注:训练时(RTX 3090)单次前向为 80.35,与 MPS 重测的 80.06 之间约 0.29pp 为跨设备数值差异,集中在小类;表内各行均在同一硬件、同一流水线下测得,增量可直接比较。多尺度 TTA 掉点的原因分析见论文 §4.6.6 Inference-Time Enhancements(AGFNet 已通过 FPN 与四级 MiT 层级在内部聚合多分辨率信息)。
+**最终结果:三模型集成 + flip TTA 达到 80.83% mIoU / 96.27% PA。** 各中间配置的完整指标见 `results_eval/` 下的 JSON;多尺度 TTA 掉点的分析见论文 §4.6.6。
 
 ## 项目结构
 
