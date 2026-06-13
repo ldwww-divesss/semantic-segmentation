@@ -60,6 +60,18 @@ python stage1_cnn_baseline/train.py --model unet --epochs 2 --batch-size 2 --dev
 
 `--device auto` 自动选择 CUDA → MPS → CPU。最优模型自动保存至 `checkpoints/<model>_best.pth`。
 
+阶段一共三个 baseline:**DeepLabV3+** 与 **U-Net** 由上面的主线 `train.py` 通过 `--model` 切换;**ResNet34-UNet** 和 **SegNet** 各为独立实现,放在对应子文件夹,接口与运行方式一致(自带 `dataset.py`/`metrics.py`,512×512,12 类、Void=11 忽略):
+
+```bash
+# ResNet34-UNet baseline(队友独立实现)
+python stage1_cnn_baseline/ResNet34-UNet/train.py
+
+# SegNet baseline(VGG16-BN 编码器 + 最大池化索引反池化解码器)
+python stage1_cnn_baseline/SegNet/train.py
+```
+
+> 这两个独立实现脚本默认从各自目录内的相对路径加载数据,数据根在脚本顶部的 `SegDataset(...)` 处配置。
+
 ### 阶段二:DeepLabV3+ + 注意力/损失/TTA
 
 阶段二 DeepLabV3+ 完整实验链已独立整理到 `stage2_attention_loss_tta/DeepLabV3Plus-CBAM/`。默认使用内置 294/73 validation 协议；已有结果不得视为 101 张 official test 结果。
@@ -128,9 +140,10 @@ python stage4_fusion_agfnet/evaluate_ensemble.py --save-json stage4_fusion_agfne
 │   ├── dataset.py                   #   CamVid 数据集加载与数据增强
 │   └── metrics.py                   #   mIoU、Pixel Accuracy 计算(混淆矩阵)
 │
-├── stage1_cnn_baseline/             # 阶段一:CNN Baseline
-│   ├── train.py                     #   U-Net / DeepLabV3+ 主线训练
-│   └── ResNet34-UNet/               #   U-Net 独立实现(队友版本)
+├── stage1_cnn_baseline/             # 阶段一:CNN Baseline(三个 baseline)
+│   ├── train.py                     #   主线:U-Net / DeepLabV3+(--model 切换)
+│   ├── ResNet34-UNet/               #   ResNet34-UNet 独立实现(队友版本)
+│   └── SegNet/                      #   SegNet 独立实现(VGG16-BN + max-unpool)
 │
 ├── stage2_attention_loss_tta/       # 阶段二:注意力 / 损失 / TTA
 │   ├── DeepLabV3Plus-CBAM/          #   DeepLabV3+ 注意力·损失·TTA 实验链
