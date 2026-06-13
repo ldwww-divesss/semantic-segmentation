@@ -20,8 +20,10 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 import segmentation_models_pytorch as smp
 
-from dataset import CamVidDataset, get_train_transform, get_val_transform
-from metrics import SegmentationMetrics, CAMVID_CLASSES
+import sys, pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))  # repo root → common/
+from common.dataset import CamVidDataset, get_train_transform, get_val_transform
+from common.metrics import SegmentationMetrics, CAMVID_CLASSES
 
 
 # ---------------------------------------------------------------------------

@@ -24,8 +24,10 @@ import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 
-from dataset import CamVidDataset, get_val_transform, CAMVID_CLASSES
-from metrics import SegmentationMetrics
+import sys, pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))  # repo root → common/
+from common.dataset import CamVidDataset, get_val_transform, CAMVID_CLASSES
+from common.metrics import SegmentationMetrics
 from train_fusion_v2 import CnnTransFusionV2
 
 

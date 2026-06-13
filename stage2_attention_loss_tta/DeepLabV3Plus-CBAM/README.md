@@ -46,16 +46,16 @@ The existing results under `results/` are **294/73 validation results**, not off
 From the repository root:
 
 ```bash
-python DeepLabV3Plus-CBAM/train.py \
-  --config DeepLabV3Plus-CBAM/configs/cbam_spatial.json \
+python stage2_attention_loss_tta/DeepLabV3Plus-CBAM/train.py \
+  --config stage2_attention_loss_tta/DeepLabV3Plus-CBAM/configs/cbam_spatial.json \
   --data-root .
 ```
 
 Explicit CLI options override JSON values:
 
 ```bash
-python DeepLabV3Plus-CBAM/train.py \
-  --config DeepLabV3Plus-CBAM/configs/default.json \
+python stage2_attention_loss_tta/DeepLabV3Plus-CBAM/train.py \
+  --config stage2_attention_loss_tta/DeepLabV3Plus-CBAM/configs/default.json \
   --data-root . \
   --attention eca \
   --cbam none \
@@ -66,7 +66,7 @@ python DeepLabV3Plus-CBAM/train.py \
 Portable preset launcher:
 
 ```bash
-DeepLabV3Plus-CBAM/scripts/train_preset.sh cbam_full --data-root ..
+stage2_attention_loss_tta/DeepLabV3Plus-CBAM/scripts/train_preset.sh cbam_full --data-root .
 ```
 
 Checkpoints contain `model`, optimizer, scheduler, serialized training arguments, current validation metrics, and the best mIoU. `last.pth` is written every epoch; `best.pth` is written only on improvement.
@@ -74,14 +74,14 @@ Checkpoints contain `model`, optimizer, scheduler, serialized training arguments
 ## Evaluate and visualize
 
 ```bash
-python DeepLabV3Plus-CBAM/evaluate_tta.py \
-  --checkpoint DeepLabV3Plus-CBAM/checkpoints/cbam_spatial/best.pth \
+python stage2_attention_loss_tta/DeepLabV3Plus-CBAM/evaluate_tta.py \
+  --checkpoint stage2_attention_loss_tta/DeepLabV3Plus-CBAM/checkpoints/cbam_spatial/best.pth \
   --data-root . \
   --split-protocol internal-val \
   --scales 0.75 1.0 1.25 --flip
 
-python DeepLabV3Plus-CBAM/visualize_attention.py \
-  --checkpoint DeepLabV3Plus-CBAM/checkpoints/cbam_spatial/best.pth \
+python stage2_attention_loss_tta/DeepLabV3Plus-CBAM/visualize_attention.py \
+  --checkpoint stage2_attention_loss_tta/DeepLabV3Plus-CBAM/checkpoints/cbam_spatial/best.pth \
   --data-root . --num-samples 6
 ```
 

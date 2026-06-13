@@ -26,9 +26,11 @@ from torch.utils.data import DataLoader
 import segmentation_models_pytorch as smp
 from transformers import SegformerModel
 
-from dataset import CamVidDataset, get_train_transform, get_val_transform, \
+import sys, pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))  # repo root → common/
+from common.dataset import CamVidDataset, get_train_transform, get_val_transform, \
     NUM_CLASSES, IGNORE_INDEX, CAMVID_CLASSES
-from metrics import SegmentationMetrics
+from common.metrics import SegmentationMetrics
 
 
 # ──────────────── AGFM Module ────────────────

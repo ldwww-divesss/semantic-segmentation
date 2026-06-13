@@ -20,9 +20,11 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 from transformers import SegformerForSemanticSegmentation
 
-from dataset import CamVidDataset, get_train_transform, get_val_transform, \
+import sys, pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))  # repo root → common/
+from common.dataset import CamVidDataset, get_train_transform, get_val_transform, \
     CAMVID_CLASSES, NUM_CLASSES, IGNORE_INDEX
-from metrics import SegmentationMetrics
+from common.metrics import SegmentationMetrics
 
 
 # ──────────────── Loss ────────────────
