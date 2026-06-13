@@ -60,21 +60,21 @@ python stage1_cnn_baseline/train.py --model unet --epochs 2 --batch-size 2 --dev
 
 `--device auto` 自动选择 CUDA → MPS → CPU。最优模型自动保存至 `checkpoints/<model>_best.pth`。
 
-阶段一共三个 baseline:**DeepLabV3+** 与 **U-Net** 由上面的主线 `train.py` 通过 `--model` 切换;**ResNet34-UNet** 和 **SegNet** 各为独立实现,放在对应子文件夹,接口与运行方式一致(自带 `dataset.py`/`metrics.py`,512×512,12 类、Void=11 忽略):
+阶段一共三个 baseline:**DeepLabV3+** 与 **U-Net** 由上面的主线 `train.py` 通过 `--model` 切换;**ResNet34-UNet** 与 **SegNet** 各自单独成目录,接口与运行方式一致(自带 `dataset.py`/`metrics.py`,512×512,12 类、Void=11 忽略):
 
 ```bash
-# ResNet34-UNet baseline(队友独立实现)
+# ResNet34-UNet baseline
 python stage1_cnn_baseline/ResNet34-UNet/train.py
 
 # SegNet baseline(VGG16-BN 编码器 + 最大池化索引反池化解码器)
 python stage1_cnn_baseline/SegNet/train.py
 ```
 
-> 这两个独立实现脚本默认从各自目录内的相对路径加载数据,数据根在脚本顶部的 `SegDataset(...)` 处配置。
+> 这两个脚本默认从各自目录内的相对路径加载数据,数据根在脚本顶部的 `SegDataset(...)` 处配置。
 
 ### 阶段二:DeepLabV3+ + 注意力/损失/TTA
 
-阶段二 DeepLabV3+ 完整实验链已独立整理到 `stage2_attention_loss_tta/DeepLabV3Plus-CBAM/`。默认使用内置 294/73 validation 协议；已有结果不得视为 101 张 official test 结果。
+阶段二 DeepLabV3+ 完整实验链整理在 `stage2_attention_loss_tta/DeepLabV3Plus-CBAM/`。默认使用内置 294/73 validation 协议；已有结果不得视为 101 张 official test 结果。
 
 ```bash
 python stage2_attention_loss_tta/DeepLabV3Plus-CBAM/train.py \
@@ -94,7 +94,7 @@ python stage2_attention_loss_tta/DeepLabV3Plus-CBAM/evaluate_tta.py \
 python stage3_segformer/train_segformer.py --variant b2 --epochs 100
 ```
 
-SegFormer-B4 的独立实验见 `stage3_segformer/Segformer-b4/`。
+SegFormer-B4 的实验见 `stage3_segformer/Segformer-b4/`。
 
 ### 阶段四:CNN-Transformer 融合(AGFNet)
 
@@ -133,7 +133,7 @@ python stage4_fusion_agfnet/evaluate_ensemble.py --save-json stage4_fusion_agfne
 
 ## 项目结构
 
-仓库按四个研究阶段组织,主线脚本共享 `common/` 下的数据集与指标模块,各阶段另含队友的独立实现子文件夹:
+仓库按四个研究阶段组织,主线脚本共享 `common/` 下的数据集与指标模块,各阶段另含相应的实现子文件夹:
 
 ```
 ├── common/                          # 主线共享模块
@@ -142,8 +142,8 @@ python stage4_fusion_agfnet/evaluate_ensemble.py --save-json stage4_fusion_agfne
 │
 ├── stage1_cnn_baseline/             # 阶段一:CNN Baseline(三个 baseline)
 │   ├── train.py                     #   主线:U-Net / DeepLabV3+(--model 切换)
-│   ├── ResNet34-UNet/               #   ResNet34-UNet 独立实现(队友版本)
-│   └── SegNet/                      #   SegNet 独立实现(VGG16-BN + max-unpool)
+│   ├── ResNet34-UNet/               #   ResNet34-UNet baseline
+│   └── SegNet/                      #   SegNet baseline(VGG16-BN + max-unpool)
 │
 ├── stage2_attention_loss_tta/       # 阶段二:注意力 / 损失 / TTA
 │   ├── DeepLabV3Plus-CBAM/          #   DeepLabV3+ 注意力·损失·TTA 实验链
@@ -151,7 +151,7 @@ python stage4_fusion_agfnet/evaluate_ensemble.py --save-json stage4_fusion_agfne
 │
 ├── stage3_segformer/                # 阶段三:SegFormer 跨框架对比
 │   ├── train_segformer.py           #   SegFormer-B2 主线训练
-│   ├── Segformer-b4/                #   SegFormer-B4 独立实验
+│   ├── Segformer-b4/                #   SegFormer-B4 实验
 │   └── logs/                        #   训练日志
 │
 ├── stage4_fusion_agfnet/            # 阶段四:CNN-Transformer 融合(AGFNet)
